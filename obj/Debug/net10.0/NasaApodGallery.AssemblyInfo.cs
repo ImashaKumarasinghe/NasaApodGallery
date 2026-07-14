@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("NasaApodGallery")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+b205301cfc63cf0fdf9bcf1f5aa9ffb1d5e37a14")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+25c84c84b9c91cd806bb590b67deb5bb42529d31")]
 [assembly: System.Reflection.AssemblyProductAttribute("NasaApodGallery")]
 [assembly: System.Reflection.AssemblyTitleAttribute("NasaApodGallery")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

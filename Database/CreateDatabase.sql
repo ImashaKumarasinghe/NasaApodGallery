@@ -1,0 +1,24 @@
+CREATE DATABASE NasaApodDb;
+GO
+
+USE NasaApodDb;
+GO
+
+CREATE TABLE ApodEntries
+(
+    Id INT IDENTITY(1,1) PRIMARY KEY,
+    ApodDate DATE NOT NULL,
+    Title NVARCHAR(300) NOT NULL,
+    Explanation NVARCHAR(MAX) NULL,
+    Url NVARCHAR(2048) NOT NULL,
+    HdUrl NVARCHAR(2048) NULL,
+    ThumbnailUrl NVARCHAR(2048) NULL,
+    MediaType NVARCHAR(50) NOT NULL,
+    ServiceVersion NVARCHAR(20) NULL,
+    Copyright NVARCHAR(300) NULL,
+    SavedAt DATETIME2 NOT NULL
+        CONSTRAINT DF_ApodEntries_SavedAt DEFAULT SYSUTCDATETIME(),
+
+    CONSTRAINT UQ_ApodEntries_ApodDate UNIQUE (ApodDate)
+);
+GO
