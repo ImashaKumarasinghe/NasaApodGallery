@@ -1,8 +1,131 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@model NasaApodGallery.Models.HomeViewModel
+
+@{
+    ViewData["Title"] = "NASA APOD Gallery";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="hero-section">
+    <h1>NASA Astronomy Picture Gallery</h1>
+
+    <p>
+        Select a date range to fetch Astronomy Picture
+        of the Day records from NASA.
+    </p>
 </div>
+
+<div class="fetch-panel">
+    <form asp-controller="Home"
+          asp-action="Fetch"
+          method="post">
+
+        @Html.AntiForgeryToken()
+
+        <div class="date-fields">
+            <div class="form-group">
+                <label asp-for="StartDate"></label>
+
+                <input asp-for="StartDate"
+                       class="form-control" />
+
+                <span asp-validation-for="StartDate"
+                      class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="EndDate"></label>
+
+                <input asp-for="EndDate"
+                       class="form-control" />
+
+                <span asp-validation-for="EndDate"
+                      class="text-danger"></span>
+            </div>
+
+            <div class="form-group button-group">
+                <button type="submit"
+                        class="btn btn-primary">
+                    Fetch and Save
+                </button>
+            </div>
+        </div>
+    </form>
+</div>
+
+@if (!string.IsNullOrWhiteSpace(Model.Message))
+{
+    <div class="alert alert-success">
+        @Model.Message
+    </div>
+}
+
+@if (!string.IsNullOrWhiteSpace(Model.ErrorMessage))
+{
+    <div class="alert alert-danger">
+        @Model.ErrorMessage
+    </div>
+}
+
+@if (Model.ApodEntries.Count == 0)
+{
+    <div class="empty-state">
+        <h2>No APOD records found</h2>
+
+        <p>
+            Choose a date range and click Fetch and Save.
+        </p>
+    </div>
+}
+else
+{
+    <div class="gallery-grid">
+        @foreach (var item in Model.ApodEntries)
+        {
+            <article class="gallery-card">
+                <div class="media-wrapper">
+                    @if (item.MediaType
+                        .Equals(
+                            "image",
+                            StringComparison.OrdinalIgnoreCase))
+                    {
+                        <img src="@item.Url"
+                             alt="@item.Title"
+                             loading="lazy" />
+                    }
+                    else if (!string.IsNullOrWhiteSpace(
+                        item.ThumbnailUrl))
+                    {
+                        <img src="@item.ThumbnailUrl"
+                             alt="@item.Title"
+                             loading="lazy" />
+                    }
+                    else
+                    {
+                        <div class="video-placeholder">
+                            <span>Video APOD</span>
+                        </div>
+                    }
+                </div>
+
+                <div class="card-content">
+                    <p class="apod-date">
+                        @item.ApodDate.ToString("dd MMMM yyyy")
+                    </p>
+
+                    <h2>@item.Title</h2>
+
+                    <a href="@item.Url"
+                       target="_blank"
+                       rel="noopener noreferrer"
+                       class="view-link">
+                        View original
+                    </a>
+                </div>
+            </article>
+        }
+    </div>
+}
+
+@section Scripts
+{
+    <partial name="_ValidationScriptsPartial" />
+}
